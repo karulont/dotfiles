@@ -11,10 +11,37 @@ alias less='less -R'
 export EDITOR=vim
 PS1='\[\e[32m\][\u@\h \W]\[\e[m\]\$ '
 
-if [[ $TERM == xterm-termite ]]; then
-    . /etc/profile.d/vte.sh
-    __vte_prompt_command
-fi
+# Use bash-completion, if available
+[[ $PS1 && -f /usr/share/bash-completion/bash_completion ]] && \
+    . /usr/share/bash-completion/bash_completion
 
-export PATH=$PATH:~/.local/bin
+[[ -f /usr/share/fzf/completion.bash ]] && \
+    . /usr/share/fzf/completion.bash && \
+    . /usr/share/fzf/key-bindings.bash
+
+[ -f /usr/bin/rg ] &&
+    export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --glob "!.git/*"'
+    export FZF_CTRL_T_COMMAND=${FZF_DEFAULT_COMMAND}
+
+_ctrlp_helper() {
+    local file=$(fzf)
+    if [ -e "$file" ]; then
+        vim "$file"
+    fi
+}
+
+bind -x '"\C-p": _ctrlp_helper;'
+
 alias dotfiles='/usr/bin/git --git-dir=/home/karl/.dotfiles/ --work-tree=/home/karl'
+
+[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+
+export HISTCONTROL=ignoreboth:erasedups
+export HISTSIZE=10000
+export HISTFILESIZE=10000
+
+function adoc() {
+    PATH="$PATH:$(ruby -e 'print Gem.user_dir')/bin" \
+    ADOC_TEMP=/home/karl/dokumendimallid/asciidoctor-pdf/resources \
+    /home/karl/dokumendimallid/asciidoctor-pdf/adoc2pdf.sh $1
+}
