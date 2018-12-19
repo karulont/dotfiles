@@ -19,7 +19,6 @@ augroup END
 let mapleader=" "
 
 call plug#begin()
-Plug 'lyuts/vim-rtags'
 Plug 'Shougo/vimproc.vim', {'do' : 'make'}
 Plug 'eagletmt/ghcmod-vim'
 Plug 'eagletmt/neco-ghc'
@@ -28,6 +27,7 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'lvht/fzf-mru'
 Plug 'tpope/vim-unimpaired'
+Plug 'farmergreg/vim-lastplace'
 call plug#end()
 
 " ghc-mod.vim config
@@ -35,12 +35,6 @@ noremap <leader>gt :GhcModType<CR>
 noremap <leader>gn :GhcModTypeClear<CR>
 noremap <leader>gc :GhcModCheckAndLintAsync<CR>
 noremap <leader>gi :GhcModInfo<CR>
-
-" youcompleteme
-let g:ycm_global_ycm_extra_conf = '/usr/share/vim/vimfiles/third_party/ycmd/cpp/.ycm_extra_conf.py'
-let g:ycm_server_python_interpreter = 'python2'
-" youcompleteme with neco-ghc
-let g:ycm_semantic_triggers = {'haskell' : ['.']}
 
 " use ripgrep
 if executable("rg")
