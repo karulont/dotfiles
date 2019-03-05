@@ -31,6 +31,7 @@ _ctrlp_helper() {
 }
 
 bind -x '"\C-p": _ctrlp_helper;'
+bind -x '"\C-n": (setsid i3-sensible-terminal </dev/null >/dev/null 2>/dev/null &);'
 
 alias dotfiles='/usr/bin/git --git-dir=/home/karl/.dotfiles/ --work-tree=/home/karl'
 
